@@ -51,7 +51,7 @@
   <% elsif @calculator == "payment" %>
     <% if @monthly_payment %>
       <h1>Payment Results</h1>
-      <p>A <%= @formatted_apr %> APR loan of <%= @formatted_principal %> for <%= params[:years] %> years requires a monthly payment of <%= @formatted_payment %></p>
+      <p>A <%= @formatted_apr %> APR loan of <%= @formatted_principal %> for <%= params[:years] %> years requires a monthly payment of <%= @monthly_payment.to_fs(:currency) %></p>
     <% else %>
       <form action="/payment/results">
         <div>
@@ -71,22 +71,22 @@
     <% end %>
 
   <% elsif @calculator == "random" %>
-  <% if @result %>
-    <h1>Random Results</h1>
-    <p>A random number between <%= params[:min] %> and <%= params[:max] %> is <%= @result %></p>
-  <% else %>
-    <form action="/random/results">
-      <div>
-        <label for="minimum">Minimum</label>
-        <input type="text" name="min" id="minimum">
-      </div>
-      <div>
-        <label for="maximum">Maximum</label>
-        <input type="text" name="max" id="maximum">
-      </div>
-      <button>Pick random number</button>
-    </form>
-  <% end %>
+    <% if @result %>
+      <h1>Random Result</h1>
+      <p>A random number between <%= params[:min] %> and <%= params[:max] %> is <%= @result.to_i %></p>
+    <% else %>
+      <form action="/random/results">
+        <div>
+          <label for="min">Minimum</label>
+          <input type="text" name="min" id="min">
+        </div>
+        <div>
+          <label for="max">Maximum</label>
+          <input type="text" name="max" id="max">
+        </div>
+        <button>Pick random number</button>
+      </form>
+    <% end %>
   <% end %>
 </body>
 </html>
