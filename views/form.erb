@@ -17,56 +17,76 @@
   </table>
 
   <% if @calculator == "square" %>
-    <form action="/square/results">
-      <div>
-        <label for="user_number">Enter a number</label>
-      </div>
-      <div>
-        <input type="text" name="number" id="user_number" placeholder="What number do you want to take the square of?">
-      </div>
-      <button>Calculate square</button>
-    </form>
+    <% if @result %>
+      <h1>Square Results</h1>
+      <p>The square of <%= @number %> is <%= @result %></p>
+    <% else %>
+      <form action="/square/results">
+        <div>
+          <label for="user_number">Enter a number</label>
+        </div>
+        <div>
+          <input type="text" name="number" id="user_number" placeholder="What number do you want to take the square of?">
+        </div>
+        <button>Calculate square</button>
+      </form>
+    <% end %>
 
   <% elsif @calculator == "square_root" %>
-    <form action="/square_root/results">
-      <div>
-        <label for="user_number">Enter a number</label>
-      </div>
-      <div>
-        <input type="text" name="number" id="user_number" placeholder="What number do you want to take the square root of?">
-      </div>
-      <button>Calculate square root</button>
-    </form>
+    <% if @result %>
+      <h1>Square Root Results</h1>
+      <p>The square root of <%= @number %> is <%= @result %></p>
+    <% else %>
+      <form action="/square_root/results">
+        <div>
+          <label for="user_number">Enter a number</label>
+        </div>
+        <div>
+          <input type="text" name="number" id="user_number" placeholder="What number do you want to take the square root of?">
+        </div>
+        <button>Calculate square root</button>
+      </form>
+    <% end %>
 
   <% elsif @calculator == "payment" %>
-    <form action="/payment/results">
-      <div>
-        <label for="apr">APR</label>
-        <input type="text" name="apr" id="apr">
-      </div>
-      <div>
-        <label for="years">Number of years</label>
-        <input type="text" name="years" id="years">
-      </div>
-      <div>
-        <label for="principal">Principal</label>
-        <input type="text" name="principal" id="principal">
-      </div>
-      <button>Calculate monthly payment</button>
-    </form>
+    <% if @monthly_payment %>
+      <h1>Payment Results</h1>
+      <p>A <%= @formatted_apr %> APR loan of <%= @formatted_principal %> for <%= params[:years] %> years requires a monthly payment of <%= @formatted_payment %></p>
+    <% else %>
+      <form action="/payment/results">
+        <div>
+          <label for="apr">APR</label>
+          <input type="text" name="apr" id="apr">
+        </div>
+        <div>
+          <label for="years">Number of years</label>
+          <input type="text" name="years" id="years">
+        </div>
+        <div>
+          <label for="principal">Principal</label>
+          <input type="text" name="principal" id="principal">
+        </div>
+        <button>Calculate monthly payment</button>
+      </form>
+    <% end %>
 
   <% elsif @calculator == "random" %>
-    <form action="/random/results">
-      <div>
-        <label for="min">Minimum</label>
-        <input type="text" name="min" id="min">
-      </div>
-      <div>
-        <label for="max">Maximum</label>
-        <input type="text" name="max" id="max">
-      </div>
-      <button>Pick random number</button>
-    </form>
+    <% if @result %>
+      <h1>Random Results</h1>
+      <p>A random number between <%= params[:min] %> and <%= params[:max] %> is <%= @result %></p>
+    <% else %>
+      <form action="/random/results">
+        <div>
+          <label for="min">Minimum</label>
+          <input type="text" name="min" id="min">
+        </div>
+        <div>
+          <label for="max">Maximum</label>
+          <input type="text" name="max" id="max">
+        </div>
+        <button>Pick random number</button>
+      </form>
+    <% end %>
   <% end %>
 </body>
 </html>
