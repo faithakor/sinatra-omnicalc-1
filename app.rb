@@ -45,18 +45,21 @@ get "/payment/results" do
   apr = params[:apr].to_f
   years = params[:years].to_f
   
-  monthly_rate = (apr / 100) / 12
-  total_payments = years * 12
+  monthly_rate = (apr.to_f / 100.0) / 12.0
+  total_payments = years * 12.0
   
   if monthly_rate == 0
     @monthly_payment = principal / total_payments
   else
-    @monthly_payment = principal * (monthly_rate * (1 + monthly_rate)**total_payments) / ((1 + monthly_rate)**total_payments - 1)
+    numerator = monthly_rate * (1 + monthly_rate)**total_payments
+    denominator = (1 + monthly_rate)**total_payments - 1
+    @monthly_payment = principal * (numerator / denominator)
   end
   
-  @formatted_payment = sprintf("$%.2f", @monthly_payment)
+  @monthly_payment = @monthly_payment.round(2)
+  @formatted_payment = "$#{format('%.2f', @monthly_payment)}"
   @formatted_apr = sprintf("%.4f%%", apr)
-  @formatted_principal = sprintf("$%s", principal.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse)
+  @formatted_principal = "$#{principal.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse}"
   erb :form
 end
 
@@ -64,6 +67,6 @@ get "/random/results" do
   @calculator = "random"
   min = params[:min].to_i
   max = params[:max].to_i
-  @result = rand(min..max)
+  @result = rand(min..max + 1) # Added + 1 to make it inclusive of max value
   erb :form
 end
