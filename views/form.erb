@@ -1,79 +1,72 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Target: Omnicalc-1</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head>
-  <body>
-    <table style="width: 100%" border="1">
-      <tr>
-        <td><strong>Calculators</strong></td>
-        <td><a href="/square/new">Square with Form</a></td>
-        <td><a href="/square_root/new">Square Root with Form</a></td>
-        <td><a href="/payment/new">Payment with Form</a></td>
-        <td><a href="/random/new">Random with Form</a></td>
-      </tr>
-    </table>
+<head>
+  <title>Target: Omnicalc-1</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+  <table style="width: 100%" border="1">
+    <tr>
+      <td><strong>Calculators</strong></td>
+      <td><a href="/square/new">Square with Form</a></td>
+      <td><a href="/square_root/new">Square Root with Form</a></td>
+      <td><a href="/payment/new">Payment with Form</a></td>
+      <td><a href="/random/new">Random with Form</a></td>
+    </tr>
+  </table>
 
-    <% if form_type %>
-      <form action="/<%= form_type %>/results" method="POST">
-        <% case form_type %>
-        <% when :square %>
-          <div>
-            <label for="number">Enter a number</label>
-            <input id="number" type="text" name="number" placeholder="Enter a number">
-          </div>
-          <button>Calculate square</button>
+  <% if @calculator == "square" %>
+    <form action="/square/results">
+      <div>
+        <label for="user_number">Enter a number</label>
+      </div>
+      <div>
+        <input type="text" name="number" id="user_number" placeholder="What number do you want to take the square of?">
+      </div>
+      <button>Calculate square</button>
+    </form>
 
-        <% when :square_root %>
-          <div>
-            <label for="number">Enter a number</label>
-            <input id="number" type="text" name="number" placeholder="Enter a number">
-          </div>
-          <button>Calculate square root</button>
+  <% elsif @calculator == "square_root" %>
+    <form action="/square_root/results">
+      <div>
+        <label for="user_number">Enter a number</label>
+      </div>
+      <div>
+        <input type="text" name="number" id="user_number" placeholder="What number do you want to take the square root of?">
+      </div>
+      <button>Calculate square root</button>
+    </form>
 
-        <% when :random %>
-          <div>
-            <label for="min">Minimum</label>
-            <input id="min" type="text" name="min" placeholder="E.g. 1">
-          </div>
-          <div>
-            <label for="max">Maximum</label>
-            <input id="max" type="text" name="max" placeholder="E.g. 100">
-          </div>
-          <button>Pick random number</button>
+  <% elsif @calculator == "payment" %>
+    <form action="/payment/results">
+      <div>
+        <label for="apr">APR</label>
+        <input type="text" name="apr" id="apr">
+      </div>
+      <div>
+        <label for="years">Number of years</label>
+        <input type="text" name="years" id="years">
+      </div>
+      <div>
+        <label for="principal">Principal</label>
+        <input type="text" name="principal" id="principal">
+      </div>
+      <button>Calculate monthly payment</button>
+    </form>
 
-        <% when :payment %>
-          <div>
-            <label for="principal">Principal</label>
-            <input id="principal" type="text" name="principal" placeholder="Enter principal amount">
-          </div>
-          <div>
-            <label for="rate">APR (%)</label>
-            <input id="rate" type="text" name="rate" placeholder="Enter APR">
-          </div>
-          <div>
-            <label for="years">Number of years</label>
-            <input id="years" type="text" name="years" placeholder="Enter number of years">
-          </div>
-          <button>Calculate monthly payment</button>
-        <% end %>
-      </form>
-    <% end %>
-
-    <% if result %>
-      <h1>Result</h1>
-      <% if form_type == :square %>
-        <p>The square of the number is <%= result %></p>
-      <% elsif form_type == :square_root %>
-        <p>The square root of the number is <%= result %></p>
-      <% elsif form_type == :random %>
-        <p>Your random number is <%= result %></p>
-      <% elsif form_type == :payment %>
-        <p>Your monthly payment is <%= result %></p>
-      <% end %>
-    <% end %>
-
-  </body>
+  <% elsif @calculator == "random" %>
+    <form action="/random/results">
+      <div>
+        <label for="min">Minimum</label>
+        <input type="text" name="min" id="min">
+      </div>
+      <div>
+        <label for="max">Maximum</label>
+        <input type="text" name="max" id="max">
+      </div>
+      <button>Pick random number</button>
+    </form>
+  <% end %>
+</body>
 </html>
